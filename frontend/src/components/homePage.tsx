@@ -1,9 +1,12 @@
+import Maps from "./partials/maps";
+
+
 const HomePage = () => {
   return (
     <>
       <div className="flex flex-row" style={{ height: "calc(100vh - 40px)" }}>
         <div className="" style={{ width: "calc(100vw * 0.7)" }}>
-          <h1>Hello</h1>
+          <Maps></Maps>
         </div>
         <div className=" bg-gray-100/30" style={{ width: "calc(100vw * 0.3)" }}>
           <div className="pw-10 ph-2">
