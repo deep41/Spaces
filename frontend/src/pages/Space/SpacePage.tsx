@@ -1,4 +1,6 @@
+import SpaceComments from "./SpaceComments";
 import SpaceImageRow from "./SpaceImageRow";
+import SpaceMap from "./SpaceMap";
 
 const SpacePage = () => {
   const spaceData = {
@@ -22,7 +24,10 @@ const SpacePage = () => {
               </div>
             </div>
           </div>
-          <div className="bg-gray-100/20"></div>
+          <div className="bg-gray-100/20">
+            <SpaceMap />
+            <SpaceComments />
+          </div>
         </div>
       </div>
     </>
