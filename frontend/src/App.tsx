@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import LandingPage from "./components/landingPage";
 import { useState } from "react";
@@ -10,10 +10,15 @@ import Header from "./components/header";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  // Check if the current route is the landing page
+  const isLandingPage = window.location.pathname === '/';
+
   return (
     <>
       <div>
-        <Header />
+        {!isLandingPage && <Header />}
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<HomePage />} />
