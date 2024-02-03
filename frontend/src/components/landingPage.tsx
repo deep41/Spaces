@@ -1,12 +1,91 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 enum FormType {
   SignIn = 'signIn',
   SignUp = 'signUp',
 }
 
+interface FormData {
+  username: string;
+  email: string;
+  password: string;
+}
+
 const LandingPage: React.FC = () => {
   const [formType, setFormType] = useState<FormType>(FormType.SignIn);
+  const [formData, setFormData] = useState<FormData>({
+    username: '',
+    email: '',
+    password: '',
+  });
+  const navigate = useNavigate();
+
+  const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch('http://localhost:3000/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        console.log('Sign In successful:', data);
+        navigate('/home');
+      } else {
+        console.error('Sign In failed:', data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const onSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch('http://localhost:3000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Sign Up successful:', data);
+      } else {
+        console.error('Sign Up failed:', data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   return (
     <>
@@ -42,7 +121,7 @@ const LandingPage: React.FC = () => {
                 Sign Up
               </button>
             </div>
-            <form>
+            <form onSubmit={formType === FormType.SignIn ? onSignIn : onSignUp}>
               <div className="mb-4">
                 <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                   Username
@@ -51,6 +130,8 @@ const LandingPage: React.FC = () => {
                   type="text"
                   id="username"
                   name="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 />
               </div>
@@ -63,6 +144,8 @@ const LandingPage: React.FC = () => {
                     type="email"
                     id="email"
                     name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                   />
                 </div>
@@ -75,6 +158,8 @@ const LandingPage: React.FC = () => {
                   type="password"
                   id="password"
                   name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 />
               </div>
