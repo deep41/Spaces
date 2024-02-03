@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 enum FormType {
-  SignIn = 'signIn',
-  SignUp = 'signUp',
+  SignIn = "signIn",
+  SignUp = "signUp",
 }
 
 interface FormData {
@@ -13,23 +12,30 @@ interface FormData {
   password: string;
 }
 
-const LandingPage: React.FC = () => {
+const LandingPage = () => {
   const [formType, setFormType] = useState<FormType>(FormType.SignIn);
   const [formData, setFormData] = useState<FormData>({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
   });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!!token) {
+      navigate("/home");
+    }
+  }, []);
 
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/signin', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/signin", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: formData.username,
@@ -40,14 +46,14 @@ const LandingPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        console.log('Sign In successful:', data);
-        navigate('/home');
+        localStorage.setItem("token", data.token);
+        console.log("Sign In successful:", data);
+        navigate("/home");
       } else {
-        console.error('Sign In failed:', data.message);
+        console.error("Sign In failed:", data.message);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -55,10 +61,10 @@ const LandingPage: React.FC = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/signup', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/signup", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: formData.username,
@@ -70,15 +76,14 @@ const LandingPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log('Sign Up successful:', data);
+        console.log("Sign Up successful:", data);
       } else {
-        console.error('Sign Up failed:', data.message);
+        console.error("Sign Up failed:", data.message);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
-
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -94,10 +99,11 @@ const LandingPage: React.FC = () => {
           <div>
             <h1 className="text-7xl font-bold pb-5">SPACES</h1>
             <h2 className="text-xl text-gray-500">
-              Discover a world where community connections flourish and your neighborhood comes alive.
-              Our platform is designed to bring communities closer, offering a space for locals to
-              share, collaborate, and celebrate the unique spirit of their area. Join us in nurturing
-              a more connected and vibrant community.
+              Discover a world where community connections flourish and your
+              neighborhood comes alive. Our platform is designed to bring
+              communities closer, offering a space for locals to share,
+              collaborate, and celebrate the unique spirit of their area. Join
+              us in nurturing a more connected and vibrant community.
             </h2>
           </div>
         </div>
@@ -106,7 +112,9 @@ const LandingPage: React.FC = () => {
             <div className="mb-4">
               <button
                 className={`text-2xl font-bold mb-4 ${
-                  formType === FormType.SignIn ? 'text-blue-500' : 'text-black'
+                  formType === FormType.SignIn
+                    ? "text-blue-500"
+                    : "text-black/55"
                 }`}
                 onClick={() => setFormType(FormType.SignIn)}
               >
@@ -114,7 +122,9 @@ const LandingPage: React.FC = () => {
               </button>
               <button
                 className={`text-2xl font-bold mb-4 ml-6 ${
-                  formType === FormType.SignUp ? 'text-blue-500' : 'text-black'
+                  formType === FormType.SignUp
+                    ? "text-blue-500"
+                    : "text-black/55"
                 }`}
                 onClick={() => setFormType(FormType.SignUp)}
               >
@@ -123,7 +133,10 @@ const LandingPage: React.FC = () => {
             </div>
             <form onSubmit={formType === FormType.SignIn ? onSignIn : onSignUp}>
               <div className="mb-4">
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Username
                 </label>
                 <input
@@ -137,7 +150,10 @@ const LandingPage: React.FC = () => {
               </div>
               {formType === FormType.SignUp && (
                 <div className="mb-4">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Email
                   </label>
                   <input
@@ -151,7 +167,10 @@ const LandingPage: React.FC = () => {
                 </div>
               )}
               <div className="mb-4">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Password
                 </label>
                 <input
@@ -163,8 +182,11 @@ const LandingPage: React.FC = () => {
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 />
               </div>
-              <button type="submit" className="px-4 py-2 bg-black text-white rounded-md">
-                {formType === FormType.SignIn ? 'Sign In' : 'Sign Up'}
+              <button
+                type="submit"
+                className="px-4 py-2 bg-black text-white rounded-md"
+              >
+                {formType === FormType.SignIn ? "Sign In" : "Sign Up"}
               </button>
             </form>
           </div>
