@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NavBarItem from "./navBarItem";
 import NavProfileImage from "./navProfileImage";
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b lg:border-slate-900/10 bg-white supports-backdrop-blur:bg-white/95">
@@ -20,8 +21,20 @@ const Header = () => {
                   <ul className="flex space-x-8">
                     {/* {isLoggedIn && <NavBarItem link="/profile" text="Profile" />}
             {isLoggedIn && <NavBarItem link="/logout" text="Log Out" />} */}
-                    <NavBarItem link="/profile" text="User Name" />
+                    <NavBarItem
+                      link="/logout"
+                      text="Logout"
+                      disabled={true}
+                      onClick={() => {
+                        localStorage.clear();
+                        navigate("/");
+                      }}
+                    />
                     <NavProfileImage link="/profile" imamgeLink="User Name" />
+                    <div
+                      className="hidden group-hover:block absolute bg-gray-100 border rounded-none mt-2"
+                      style={{ right: "-25px", top: "16px" }}
+                    ></div>
                   </ul>
                 </nav>
               </div>
