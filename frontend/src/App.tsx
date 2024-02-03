@@ -20,6 +20,7 @@ function App() {
           <Route path="/space" element={<SpacePage />} />
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/near" element={<NearPage />} />
+          {/* <Route path="*" element={<LandingPage />} /> */}
         </Routes>
       </div>
     </>
