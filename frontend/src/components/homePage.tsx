@@ -1,7 +1,19 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Maps from "./partials/maps";
 
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!!!token) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <>
       <div className="flex flex-row" style={{ height: "calc(100vh - 40px)" }}>
