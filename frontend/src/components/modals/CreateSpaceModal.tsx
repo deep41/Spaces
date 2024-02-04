@@ -124,17 +124,19 @@ const CreateSpaceModal = () => {
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                <div className="flex items-start justify-between px-6 py-4  rounded-t">
-                  <h3 className="text-3xl font-semibold">Add a Space</h3>
+                <div className="flex items-center justify-center px-6 py-4 rounded-t">
+                  <h3 className="text-2xl font-bold">Add Space</h3>
                 </div>
+                <hr className="mb-4" />
                 {/*body*/}
                 <div className="relative px-6 flex-auto">
                   <div className="rounded-md p-2">
-                    <div className="text-2xl text-black">Space Name</div>
+                    <div className="block text-gray-700 text-sm font-medium mb-2">Space Name</div>
                     <GooglePlacesAutocomplete
                       apiKey="AIzaSyBprJC4VwGTWaT9a7rI5reRU17jqXSuAIY"
                       selectProps={{
                         // value,
+                        placeholder: 'start typing to find a place...',
                         onChange(newValue: any, _) {
                           const placeName = newValue.label;
                           const placeId = newValue.value.place_id;
@@ -145,7 +147,7 @@ const CreateSpaceModal = () => {
                     />
                   </div>
                   <div className="p-2">
-                    <div className="text-2xl text-black ">
+                    <div className="block text-gray-700 text-sm font-medium mb-2">
                       Add to Collection
                     </div>
                     {collectionNames && (
@@ -165,7 +167,7 @@ const CreateSpaceModal = () => {
                     )}
                   </div>
                   <div className="rounded-md p-2">
-                    <div className="text-2xl text-black">Add Image</div>
+                    <div className="block text-gray-700 text-sm font-medium mb-2">Add Image</div>
                     <div className="grid grid-container grid-cols-4 gap-2 ">
                       {addedImagesList &&
                         addedImagesList.map((item, i) => (
@@ -183,7 +185,7 @@ const CreateSpaceModal = () => {
                     </div>
                   </div>
                   <div className="rounded-md p-2">
-                    <div className="text-2xl text-black">Add Tag</div>
+                    <div className="block text-gray-700 text-sm font-medium mb-2">Add Tag</div>
                     <div className="mb-4">
                       <input
                         id="spaceTags"
@@ -195,7 +197,7 @@ const CreateSpaceModal = () => {
                     </div>
                   </div>
                   <div className="rounded-md p-2">
-                    <div className="text-2xl text-black">Add Description</div>
+                    <div className="block text-gray-700 text-sm font-medium mb-2">Add Description</div>
                     <textarea
                       id="spaceDescription"
                       value={spaceDescription}
