@@ -6,36 +6,12 @@ import SpaceMap from "./SpaceMap";
 import { useNavigate } from "react-router-dom";
 
 const SpacePage = () => {
-  const spaceData = {
-    name: "Space 1",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id accumsan leo. Suspendisse potenti. Suspendisse auctor hendrerit tempus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. ",
-    coordinates: {
-      x: "10.1",
-      y: "11.2",
-    },
-    comments: [
-      {
-        time: 1706998216006,
-        name: "John Doe",
-        content: "This is my very first comment",
-      },
-      {
-        time: 1706998216007,
-        name: "Joe Dohn",
-        content: "second comment",
-      },
-    ],
-  };
-
   const spaceItem = useSpaceStore((store) => store.spaceItem);
-  const updateSpaceItem = useSpaceStore((store) => store.updateSpaceItem);
   const navigate = useNavigate();
   useEffect(() => {
     if (!spaceItem) {
       navigate("/home");
     }
-    return () => updateSpaceItem(null);
   }, []);
 
   return (
@@ -55,7 +31,7 @@ const SpacePage = () => {
           </div>
           <div className="bg-gray-100/20">
             <SpaceMap />
-            <SpaceComments comments={spaceData.comments}  />
+            <SpaceComments />
           </div>
         </div>
       </div>

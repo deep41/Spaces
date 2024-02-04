@@ -11,6 +11,7 @@ export type Space = {
   spaceAddress: string;
   spaceDescriptions: string;
   spaceTags: string[];
+  comments: { dateTime: number; username: string; commentData: string }[];
 };
 
 type SpaceState = {

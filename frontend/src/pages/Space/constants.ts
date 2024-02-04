@@ -1,5 +1,5 @@
 export type CommentType = {
-  time: number;
-  name: string;
-  content: string;
+  dateTime: number;
+  username: string;
+  commentData: string;
 };
