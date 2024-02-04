@@ -413,6 +413,36 @@ app.get('/space/Comments', async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+  app.get('/community/:tag', async (req, res) => {
+    try {
+      const { tag } = req.params;
+
+      // Find all users with spaces containing the specified tag
+      const usersWithMatchingSpaces = await User.find({
+        'collections.spaces.spacetags': tag,
+      });
+
+      // Extract spaces with the specified tag from each user
+      const matchingSpaces = usersWithMatchingSpaces.reduce((result, user) => {
+        user.collections.forEach((collection) => {
+          collection.spaces.forEach((space) => {
+            if (space.spacetags.includes(tag)) {
+              result.push(space);
+            }
+          });
+        });
+        return result;
+      }, []);
+
+      res.status(200).json({ spaces: matchingSpaces });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
