@@ -12,6 +12,7 @@ const HomePage = () => {
     {
       _id: string;
       collectionName: string;
+      collectionImage: string;
       spaces: { spaceCoordinate: { latitude: number; longitude: number } }[];
     }[]
   >([]);
@@ -86,6 +87,7 @@ const HomePage = () => {
                   (collection: {
                     _id: string;
                     collectionName: string;
+                    collectionImage: string;
                     spaces: any[];
                   }) => (
                     <CollectionItem
@@ -95,6 +97,7 @@ const HomePage = () => {
                         setSelectedCollection(collection.collectionName);
                         setSelectedSpaces(collection.spaces);
                       }}
+                      collectionImage={collection.collectionImage}
                     />
                   )
                 )}
@@ -167,24 +170,30 @@ const HomePage = () => {
 
 const CollectionItem = (props: any) => {
   const {
-    imageLink = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2264&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    // imageLink = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2264&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageLink,
     text,
     onClick,
+    collectionImage
   } = props;
 
   return (
     <>
       <div
         className="flex flex-col items-center rounded-md hover:bg-gray-200/50 gap-2 pb-2 pt-1 "
+        
         onClick={(e: any) => onClick(e)}
       >
-        <div className="mx-4 my-2">
+        {!!imageLink && <div className="mx-4 my-2">
           <img
             src={imageLink}
             alt="Profile Image"
             className="rounded-md w-20 h-20 object-fill"
           />
-        </div>
+        </div>}
+        {!imageLink && !!collectionImage &&
+        <div className="w-20 h-20 rounded-md object-fill" style={{background: collectionImage}}></div>
+        }
         <div>{text}</div>
       </div>
     </>
