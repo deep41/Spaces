@@ -27,7 +27,7 @@ const HomePage = () => {
         <div className=" bg-gray-100/30" style={{ width: "calc(100vw * 0.3)" }}>
           <div className="pw-10 ph-2">
             <div className="text-3xl mx-4 mt-4">My Collections</div>
-            <div className="grid-container grid grid-cols-3 ">
+            <div className="grid grid-container grid-cols-3 ">
               <SpaceItem text={"Item 1"} />
               <SpaceItem text={"Item 2"} />
               <SpaceItem text={"Item 3"} />
