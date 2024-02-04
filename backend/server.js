@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bodyParser = require('body-parser');
+const verifyToken = require('./authMiddleware')
 
 const app = express();
 const port = 3000;
@@ -186,9 +187,10 @@ app.post('/space', async (req, res) => {
   });
 
   // Define the endpoint for retrieving collections for a user
-  app.get('/collections', async (req, res) => {
+  app.get('/collections', verifyToken, async (req, res) => {
     try {
-      const { username } = req.query;
+      const username = jwt.verify(req.header('Authorization'), 'your_secret_key').username;
+      console.log(username)
   
       // Find the user by username
       const user = await User.findOne({ username });
