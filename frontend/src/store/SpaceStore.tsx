@@ -5,8 +5,8 @@ export type Space = {
   spaceName: string;
   spaceImage: string[];
   spaceCoordinate: {
-    latitude: string;
-    longitude: string;
+    latitude: number;
+    longitude: number;
   };
   spaceAddress: string;
   spaceDescriptions: string;

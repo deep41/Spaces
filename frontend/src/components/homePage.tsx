@@ -71,7 +71,7 @@ const HomePage = () => {
             {!selectedCollection && (
               <div className="text-3xl font-bold mx-8 my-4">My Collections</div>
             )}
-            <hr className="mb-4"/>
+            <hr className="mb-4" />
             {!!selectedCollection && (
               <div className="flex flex-row">
                 <div

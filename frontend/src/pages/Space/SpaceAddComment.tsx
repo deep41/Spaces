@@ -40,6 +40,7 @@ const SpaceAddComment = (props: { onAdd: any }) => {
   return (
     <>
       <div className="flex flex-row">
+        <div className="w-2" />
         <textarea
           placeholder="Type your comment here..."
           value={comment}
@@ -50,13 +51,14 @@ const SpaceAddComment = (props: { onAdd: any }) => {
           cols={40} // Adjust the number of columns as needed
           className="border-2 border-black rounded-md px-2 py-1"
         ></textarea>
+        <div className="w-2" />
         <button
           onClick={(e: any) => {
             e.preventDefault();
             handleComment();
           }}
           className="
-           bg-black rounded-md text-white px-4 py-1 "
+           bg-black/80 rounded-md text-white px-4 py-1 "
         >
           Add Comment
         </button>
