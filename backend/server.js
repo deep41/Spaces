@@ -235,6 +235,29 @@ app.post('/space', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+  
+  app.get('/collectionNames', async (req, res) => {
+    try {
+      const username = jwt.verify(req.header('Authorization'), 'your_secret_key').username;
+      console.log(username)
+      // Find the user by their ID
+      const user = await User.findOne({ username });
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Extract collection names from the user's collections
+      const collectionNames = user.collections.map(collection => collection.collectionName);
+  
+      res.json({ collectionNames });
+    } catch (error) {
+      console.error('Error fetching user collections:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  
   
 
 app.listen(port, () => {

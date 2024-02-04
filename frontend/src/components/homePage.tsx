@@ -58,7 +58,7 @@ const HomePage = () => {
             <div className="grid-container grid grid-cols-3 ">
               {collections.map(
                 (collection: { _id: string; collectionName: string }) => (
-                  <SpaceItem
+                  <CollectionItem
                     key={collection._id}
                     text={collection.collectionName}
                   />
@@ -112,7 +112,7 @@ const HomePage = () => {
   );
 };
 
-const SpaceItem = (props: any) => {
+const CollectionItem = (props: any) => {
   const {
     imageLink = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2264&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     text,
