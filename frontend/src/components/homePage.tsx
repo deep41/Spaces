@@ -160,7 +160,11 @@ const HomePage = () => {
             gap: "10px",
           }}
         >
-          <CreateSpaceModal />
+          <CreateSpaceModal
+            onUpdated={() => {
+              fetchCollections();
+            }}
+          />
           <CreateCollectionModal
             onUpdated={() => {
               fetchCollections();
