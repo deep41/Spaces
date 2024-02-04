@@ -55,9 +55,20 @@ const HomePage = () => {
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
   // Extract coordinates from all spaces inside all collections
-  const allCoordinates = collections.flatMap((collection) =>
-    collection.spaces.map((space) => space.spaceCoordinate)
-  );
+
+
+  const [allCoordinates, setAllCoordinates] = useState<any[]>([])
+  useEffect(()=> {
+    if(!selectedCollection){
+
+      setAllCoordinates(collections.flatMap((collection) =>
+      collection.spaces.map((space) => space.spaceCoordinate)))
+      
+    }else{
+      setAllCoordinates(selectedSpaces.map(space => space.spaceCoordinate))
+    }
+  ;
+  }, [selectedCollection] )
   const updateSpaceItem = useSpaceStore((store) => store.updateSpaceItem);
 
   return (
