@@ -7,11 +7,9 @@ import ExplorePage from "./components/explorePage";
 import NearPage from "./components/nearPage";
 import Header from "./components/header";
 import SpacePage from "./pages/Space/SpacePage";
+import CommunitySearchPage from "./components/CommunitySearchPage";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const navigate = useNavigate();
-
   // Check if the current route is the landing page
   const isLandingPage = window.location.pathname === "/";
 
@@ -24,6 +22,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/space" element={<SpacePage />} />
           <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/community" element={<CommunitySearchPage />} />
           <Route path="/near" element={<NearPage />} />
         </Routes>
       </div>

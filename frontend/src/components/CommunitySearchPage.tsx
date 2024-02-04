@@ -9,7 +9,11 @@ const CommunitySearchPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchSpacesByTag();
+    if (!tag) {
+      navigate("/explore");
+    } else {
+      fetchSpacesByTag();
+    }
   }, []);
 
   const tag = useCommunitySearchStore((store) => store.tag);
@@ -29,7 +33,7 @@ const CommunitySearchPage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        setSelectedSpaces(data.collections);
+        setSelectedSpaces(data.spaces);
       } else {
         console.error("Failed to fetch collections");
       }
@@ -39,10 +43,10 @@ const CommunitySearchPage = () => {
   };
 
   // Extract coordinates from all spaces inside all collections
-  //   const allCoordinates = collections.flatMap((collection) =>
-  //     collection.spaces.map((space) => space.spaceCoordinate)
-  //   );
-  const allCoordinates: any[] = [];
+  const allCoordinates: any[] = selectedSpaces.map(
+    (space: Space) => space.spaceCoordinate
+  );
+  //   const allCoordinates: any[] = [];
   //TODO: redo
   const updateSpaceItem = useSpaceStore((store) => store.updateSpaceItem);
 
@@ -59,9 +63,10 @@ const CommunitySearchPage = () => {
                 className="text-3xl mx-4 mt-4"
                 onClick={() => {
                   updateTag(null);
+                  navigate("/explore");
                 }}
               >
-                ← {tag}
+                ← #{tag}
               </div>
             </div>
 
