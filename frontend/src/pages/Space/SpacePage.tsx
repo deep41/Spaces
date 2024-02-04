@@ -22,7 +22,11 @@ const SpacePage = () => {
             <div className="px-4 pt-2">
               <div className="flex flex-col">
                 <div className="text-7xl py-4">{spaceItem?.spaceName}</div>
+                <div className="text-sm text-gray-500">
+                  {spaceItem?.spaceAddress}
+                </div>
                 <div className="text-1xl">{spaceItem?.spaceDescriptions}</div>
+
                 <div className="mt-4">
                   <SpaceImageRow spaceImage={spaceItem?.spaceImage} />
                 </div>
