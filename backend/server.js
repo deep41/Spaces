@@ -74,7 +74,7 @@ app.post("/signup", async (req, res) => {
           {
             collectionName: 'All Spaces',
             collection: [],
-            collectionImage: '', // You can add an image URL if needed
+            collectionImage: 'linear-gradient(135deg, hsl(108, 100%, 80%), hsl(138, 100%, 85%))', // You can add an image URL if needed
             collectionDescription: 'Default collection for all spaces',
           },
         ],
