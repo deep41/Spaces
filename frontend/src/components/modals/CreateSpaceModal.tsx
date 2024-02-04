@@ -27,11 +27,11 @@ const CreateSpaceModal = () => {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between px-6 py-4  rounded-t">
-                  <h3 className="text-3xl font-semibold">Modal Title</h3>
+                  <h3 className="text-3xl font-semibold">Add a Space</h3>
                 </div>
                 {/*body*/}
                 <div className="relative px-6 flex-auto">
-                  <p className="text-blueGray-500 text-lg leading-relaxed">
+                  <p className="text-lg leading-relaxed">
                     I always felt like I could do anything. That's the main
                     thing people are controlled by! Thoughts- their perception
                     of themselves! They're slowed down by their perception of

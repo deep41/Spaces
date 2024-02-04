@@ -31,7 +31,7 @@ const CreateCollectionModal = () => {
                 </div>
                 {/*body*/}
                 <div className="relative px-6 flex-auto">
-                  <p className="text-blueGray-500 text-lg leading-relaxed">
+                  <p className="text-lg leading-relaxed">
                     I always felt like I could do anything. That's the main
                     thing people are controlled by! Thoughts- their perception
                     of themselves! They're slowed down by their perception of
