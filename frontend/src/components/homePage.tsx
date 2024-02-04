@@ -105,10 +105,15 @@ const HomePage = () => {
             <div className="grid-container grid grid-cols-3 ">
               {!!selectedCollection &&
                 selectedSpaces.map(
-                  (space: { _id: string; spaceName: string }) => (
+                  (space: {
+                    _id: string;
+                    spaceName: string;
+                    spaceImage: string[];
+                  }) => (
                     <CollectionItem
                       key={space._id}
                       text={space.spaceName}
+                      imageLink={space?.spaceImage[0]}
                       onClick={(e: any) => {
                         // setSelectedCollection(space.spaceName);
                         console.log(space._id);
@@ -174,26 +179,30 @@ const CollectionItem = (props: any) => {
     imageLink,
     text,
     onClick,
-    collectionImage
+    collectionImage,
   } = props;
 
   return (
     <>
       <div
         className="flex flex-col items-center rounded-md hover:bg-gray-200/50 gap-2 pb-2 pt-1 "
-        
         onClick={(e: any) => onClick(e)}
       >
-        {!!imageLink && <div className="mx-4 my-2">
-          <img
-            src={imageLink}
-            alt="Profile Image"
-            className="rounded-md w-20 h-20 object-fill"
-          />
-        </div>}
-        {!imageLink && !!collectionImage &&
-        <div className="w-20 h-20 rounded-md object-fill" style={{background: collectionImage}}></div>
-        }
+        {!!imageLink && (
+          <div className="mx-4 my-2">
+            <img
+              src={imageLink}
+              alt="Profile Image"
+              className="rounded-md w-20 h-20 object-fill"
+            />
+          </div>
+        )}
+        {!imageLink && !!collectionImage && (
+          <div
+            className="w-20 h-20 rounded-md object-fill"
+            style={{ background: collectionImage }}
+          ></div>
+        )}
         <div>{text}</div>
       </div>
     </>
