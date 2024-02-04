@@ -69,9 +69,9 @@ const HomePage = () => {
         <div className=" bg-gray-100/30" style={{ width: "calc(100vw * 0.3)" }}>
           <div className="pw-10 ph-2">
             {!selectedCollection && (
-              <div className="text-3xl mx-8 my-4">My Collections</div>
+              <div className="text-3xl font-bold mx-8 my-4">My Collections</div>
             )}
-            <hr />
+            <hr className="mb-4"/>
             {!!selectedCollection && (
               <div className="flex flex-row">
                 <div
