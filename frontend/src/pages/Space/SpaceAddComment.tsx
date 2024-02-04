@@ -6,14 +6,14 @@ const SpaceAddComment = () => {
   return (
     <>
       <div>
-        <textarea
+        {/* <textarea
           placeholder="Type your comment here..."
           value={commentText}
           onChange={handleCommentChange}
           rows={2} // Adjust the number of rows as needed
           cols={50} // Adjust the number of columns as needed
         ></textarea>
-        <button onClick={handleAddComment}>Add Comment</button>
+        <button onClick={handleAddComment}>Add Comment</button> */}
       </div>
     </>
   );
