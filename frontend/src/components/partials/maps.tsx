@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-import { Marker } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, OverlayView } from "@react-google-maps/api";
 
 type Library = "places";
 
@@ -67,12 +66,6 @@ const Maps: React.FC<MapsProps> = ({ coordinates = [] }) => {
     return <div>Loading maps</div>;
   }
 
-  const customMarkerImage = {
-    url: "https://source.unsplash.com/random/40x40",
-    scaledSize: { width: 40, height: 40 },
-    size: { width: 40, height: 40 },
-  } as google.maps.Icon;
-  
   return (
     <div>
       <GoogleMap
@@ -82,15 +75,76 @@ const Maps: React.FC<MapsProps> = ({ coordinates = [] }) => {
       >
         {/* Render static markers */}
         {coordinates.map((marker, index) => (
-          <Marker key={index} position={{ lat: marker.latitude, lng: marker.longitude }} icon={customMarkerImage} />
+          <OverlayView
+            key={index}
+            position={{ lat: marker.latitude, lng: marker.longitude }}
+            mapPaneName={OverlayView.OVERLAY_LAYER}
+            getPixelPositionOffset={(width, height) => ({
+              x: -(width / 2),
+              y: -(height / 2),
+            })}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src="https://source.unsplash.com/random/40x40"
+                alt="Custom Marker"
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  border: "3px solid #FFF",
+                }}
+              />
+              <span  style={{
+              marginTop: "50px",
+              fontWeight: "bold", // Make text bolder
+              color: "#000", // Set text color to white
+            }} >HELLOO</span>
+            </div>
+          </OverlayView>
         ))}
 
         {/* Render current location marker */}
-        <Marker
-          key="currentLocation"
+        <OverlayView
           position={currentLocation}
-          icon={customMarkerImage}
-        />
+          mapPaneName={OverlayView.OVERLAY_LAYER}
+          getPixelPositionOffset={(width, height) => ({
+            x: -(width / 2),
+            y: -(height / 2),
+          })}
+        >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src="https://source.unsplash.com/random/40x40"
+                alt="Custom Marker"
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  border: "3px solid #FFF",
+                }}
+              />
+              <span  style={{
+              marginTop: "50px",
+              fontWeight: "bold", // Make text bolder
+              color: "#000", // Set text color to white
+            }}>HELLOO</span>
+            </div>
+        </OverlayView>
       </GoogleMap>
     </div>
   );
