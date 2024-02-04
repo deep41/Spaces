@@ -40,7 +40,7 @@ const CreateSpaceModal = () => {
     if (!!token) {
       fetchCollectionsNames();
     }
-  }, []);
+  }, [showModal]);
 
   const fetchCollectionsNames = async () => {
     try {
@@ -67,7 +67,6 @@ const CreateSpaceModal = () => {
 
   // const onCollectionSelect = (key: string) => {};
 
-
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -76,18 +75,18 @@ const CreateSpaceModal = () => {
         return;
       }
 
-      const tagsArray = spaceTags.split(" ").map(tag => tag.replace("#", ""));
-      
+      const tagsArray = spaceTags.split(" ").map((tag) => tag.replace("#", ""));
+
       const formData = {
         spaceName: spaceName,
         spaceDescription: spaceDescription,
         spacetags: tagsArray,
         bufferImages: addedImagesList, // Assuming you want to use the first added image
         placeId: placeId,
-        collectionNames: selectedCollection || 'All Spaces'
-      };  
+        collectionNames: selectedCollection,
+      };
 
-      console.log(formData)
+      console.log(formData);
 
       const response = await fetch("http://localhost:3000/space", {
         method: "POST",
@@ -104,7 +103,6 @@ const CreateSpaceModal = () => {
       } else {
         console.error("Failed to add space");
       }
-
     } catch (error) {
       console.error("Error submitting space:", error);
     }
