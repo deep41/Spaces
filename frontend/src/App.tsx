@@ -6,7 +6,7 @@ import HomePage from "./components/homePage";
 import ExplorePage from "./components/explorePage";
 import NearPage from "./components/nearPage";
 import Header from "./components/header";
-import SpacePage from "./pages/Space/spacePage";
+import SpacePage from "./pages/Space/SpacePage";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);

@@ -4,6 +4,9 @@ const CreateSpaceModal = () => {
   const [showModal, setShowModal] = useState(false);
   const fileInputRef: any = useRef(null);
   const [addedImagesList, setAddedImagesList] = useState<string[]>([]);
+  const [spaceTags, setSpaceTags] = useState("");
+  const [spaceName, setSpaceName] = useState("");
+  const [spaceDescription, setSpaceDescription] = useState("");
 
   const handleDivClick = (event: any) => {
     event.stopPropagation();
@@ -50,6 +53,18 @@ const CreateSpaceModal = () => {
                 </div>
                 {/*body*/}
                 <div className="relative px-6 flex-auto">
+                  <div className="rounded-md p-2">
+                    <div className="text-2xl text-black">Space Name</div>
+                    <div className="mb-4">
+                      <input
+                        id="spaceName"
+                        value={spaceName}
+                        onChange={(e) => setSpaceName(e.target.value)}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder=""
+                      ></input>
+                    </div>
+                  </div>
                   <p className="text-lg leading-relaxed">
                     Search for your collection
                   </p>
@@ -71,9 +86,31 @@ const CreateSpaceModal = () => {
                       />
                     </div>
                   </div>
-                  <p>Add Tag</p>
-                  <p>Add Description</p>
-                  <p>Add content</p>
+                  <div className="rounded-md p-2">
+                    <div className="text-2xl text-black">Add Tag</div>
+                    <div className="mb-4">
+                      <input
+                        id="spaceTags"
+                        value={spaceTags}
+                        onChange={(e) => setSpaceTags(e.target.value)}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="#tag1 #tag2"
+                      ></input>
+                    </div>
+                  </div>
+                  <div className="rounded-md p-2">
+                    <div className="text-2xl text-black">Add Description</div>
+                    <textarea
+                      id="spaceDescription"
+                      value={spaceDescription}
+                      onChange={(e) => setSpaceDescription(e.target.value)}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      placeholder=""
+                    ></textarea>
+                  </div>
+                  <div className="rounded-md p-2">
+                    <div className="text-2xl text-black">Add location</div>
+                  </div>
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-4 ">
