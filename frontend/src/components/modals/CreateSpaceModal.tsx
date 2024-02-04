@@ -110,17 +110,21 @@ const CreateSpaceModal = () => {
   return (
     <>
       <button
-        className="text-white bg-transparent border-none cursor-pointer"
+        className="text-white bg-transparent border-none cursor-pointer flex items-center justify-center"
         onClick={() => setShowModal(true)}
       >
-        Add Space
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+        </svg>
+        <span className="ml-2 mr-12">Add Space</span>
       </button>
 
       {showModal ? (
         <>
           <div
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-            // onClick={() => setShowModal(false)}
+          // onClick={() => setShowModal(false)}
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
