@@ -258,6 +258,27 @@ app.post('/space', async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
+
+  app.get('/getAllTags', async (req, res) => {
+    try {
+      // Aggregate all tags from all users and collections
+      const allTags = await User.aggregate([
+        { $unwind: '$collections' },
+        { $unwind: '$collections.spaces' },
+        { $unwind: '$collections.spaces.spacetags' },
+        { $group: { _id: null, tags: { $addToSet: '$collections.spaces.spacetags' } } },
+        { $project: { _id: 0, tags: 1 } },
+      ]);
+  
+      // Extract the unique tags from the result
+      const uniqueTags = allTags.length > 0 ? allTags[0].tags : [];
+  
+      res.json({ tags: uniqueTags });
+    } catch (error) {
+      console.error('Error fetching unique tags:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
   
   
 
