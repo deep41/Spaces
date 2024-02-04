@@ -8,13 +8,37 @@ import CreateCollectionModal from "./modals/CreateCollectionModal";
 const HomePage = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [collections, setCollections] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!!!token) {
       navigate("/");
+    }else{
+      fetchCollections();
     }
   }, []);
+
+  const fetchCollections = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/collections", {
+        method: "GET",
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data)
+        setCollections(data.collections);
+      } else {
+        console.error("Failed to fetch collections");
+      }
+    } catch (error) {
+      console.error("Error fetching collections:", error);
+    }
+  };
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -28,13 +52,10 @@ const HomePage = () => {
           <div className="pw-10 ph-2">
             <div className="text-3xl mx-4 mt-4">My Collections</div>
             <div className="grid-container grid grid-cols-3 ">
-              <SpaceItem text={"Item 1"} />
-              <SpaceItem text={"Item 2"} />
-              <SpaceItem text={"Item 3"} />
-              <SpaceItem text={"Item 4"} />
-              <SpaceItem text={"Item 5"} />
-              <SpaceItem text={"Item 6"} />
-              <SpaceItem text={"Item 7"} />
+            {collections.map((collection: { _id: string, collectionName: string }) => (
+          <SpaceItem key={collection._id} text={collection.collectionName} />
+        ))}
+
             </div>
           </div>
         </div>
