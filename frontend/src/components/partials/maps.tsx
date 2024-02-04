@@ -12,10 +12,15 @@ const mapContainerStyle = {
 };
 
 interface MapsProps {
-  markers?: { lat: number; lng: number }[]; // Make the markers prop optional with a default value
+  coordinates?: { latitude: number; longitude: number }[];
 }
 
-const Maps: React.FC<MapsProps> = ({ markers = [] }) => {
+const defaultCenter = {
+  lat: 35.773245, // Default latitude
+  lng: -78.67461, // Default longitude
+};
+
+const Maps: React.FC<MapsProps> = ({ coordinates = [] }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyBprJC4VwGTWaT9a7rI5reRU17jqXSuAIY", // Replace with your actual API key
     libraries,
@@ -62,38 +67,30 @@ const Maps: React.FC<MapsProps> = ({ markers = [] }) => {
     return <div>Loading maps</div>;
   }
 
-  const staticMarkers = [
-    { lat: currentLocation.lat + 0.01, lng: currentLocation.lng + 0.01 },
-    { lat: currentLocation.lat - 0.01, lng: currentLocation.lng - 0.01 },
-    { lat: currentLocation.lat, lng: currentLocation.lng + 0.02 },
-  ];
-
-  console.log(staticMarkers);
-
   const customMarkerImage = {
     url: "https://source.unsplash.com/random/40x40",
     scaledSize: { width: 40, height: 40 },
     size: { width: 40, height: 40 },
   } as google.maps.Icon;
-
+  
   return (
     <div>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={15}
-        center={currentLocation}
+        center={currentLocation.lat !== 0 ? currentLocation : defaultCenter}
       >
-        {staticMarkers.map((marker, index) => (
-          <div key={index}>
-            <Marker key={index} position={marker} icon={customMarkerImage} />
-          </div>
+        {/* Render static markers */}
+        {coordinates.map((marker, index) => (
+          <Marker key={index} position={{ lat: marker.latitude, lng: marker.longitude }} icon={customMarkerImage} />
         ))}
 
-        {markers.map((marker, index) => (
-          <div key={index}>
-            <Marker key={index} position={marker} icon={customMarkerImage} />
-          </div>
-        ))}
+        {/* Render current location marker */}
+        <Marker
+          key="currentLocation"
+          position={currentLocation}
+          icon={customMarkerImage}
+        />
       </GoogleMap>
     </div>
   );

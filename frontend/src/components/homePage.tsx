@@ -8,7 +8,7 @@ import CreateCollectionModal from "./modals/CreateCollectionModal";
 const HomePage = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [collections, setCollections] = useState([]);
+  const [collections, setCollections] = useState<{ _id: string, collectionName: string, spaces: { spaceCoordinate: { latitude: number, longitude: number } }[] }[]>([])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,12 +41,16 @@ const HomePage = () => {
   };
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
+  // Extract coordinates from all spaces inside all collections
+  const allCoordinates = collections.flatMap((collection) =>
+    collection.spaces.map((space) => space.spaceCoordinate)
+  );
 
   return (
     <>
       <div className="flex flex-row" style={{ height: "calc(100vh - 40px)" }}>
         <div className="" style={{ width: "calc(100vw * 0.7)" }}>
-          <Maps></Maps>
+          <Maps coordinates={allCoordinates} />
         </div>
         <div className=" bg-gray-100/30" style={{ width: "calc(100vw * 0.3)" }}>
           <div className="pw-10 ph-2">
@@ -109,6 +113,7 @@ const SpaceItem = (props: any) => {
     imageLink = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2264&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     text,
   } = props;
+  
 
   return (
     <>
