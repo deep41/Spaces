@@ -9,6 +9,7 @@ export type Space = {
     longitude: string;
   };
   spaceAddress: string;
+  spaceDescriptions: string;
   spaceTags: string[];
 };
 
