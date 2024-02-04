@@ -82,19 +82,20 @@ const HomePage = () => {
             {!selectedCollection && (
               <div className="text-3xl font-bold mx-8 my-4">My Collections</div>
             )}
-            <hr className="mb-4"/>
             {!!selectedCollection && (
               <div className="flex flex-row">
                 <div
-                  className="text-3xl mx-4 mt-4"
+                  className="text-3xl font-semibold mx-4 my-3"
                   onClick={() => {
                     setSelectedCollection(null);
                   }}
                 >
                   ← {selectedCollection}
                 </div>
+                <div className="text-3xl my-3 text-gray-400">| Spaces</div>
               </div>
             )}
+            <hr className="my-2"/>
             <div className="grid-container grid grid-cols-3 ">
               {!selectedCollection &&
                 collections.map(

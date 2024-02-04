@@ -58,16 +58,17 @@ const CommunitySearchPage = () => {
         </div>
         <div className=" bg-gray-100/30" style={{ width: "calc(100vw * 0.3)" }}>
           <div className="pw-10 ph-2">
-            <div className="flex flex-row">
+            <div className="flex flex-row mb-4">
               <div
-                className="text-3xl mx-4 mt-4"
+                className="text-3xl font-semibold mx-4 mt-4"
                 onClick={() => {
                   updateTag(null);
                   navigate("/explore");
                 }}
               >
-                ← #{tag}
+                ←  #{tag}
               </div>
+              <div className="text-3xl mt-4 text-gray-400">| Spaces</div>
             </div>
 
             <div className="grid-container grid grid-cols-3 ">
