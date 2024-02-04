@@ -55,9 +55,19 @@ const HomePage = () => {
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
   // Extract coordinates from all spaces inside all collections
-  const allCoordinates = collections.flatMap((collection) =>
-    collection.spaces.map((space) => space.spaceCoordinate)
-  );
+
+  const [allCoordinates, setAllCoordinates] = useState<any[]>([]);
+  useEffect(() => {
+    if (!selectedCollection) {
+      setAllCoordinates(
+        collections.flatMap((collection) =>
+          collection.spaces.map((space) => space.spaceCoordinate)
+        )
+      );
+    } else {
+      setAllCoordinates(selectedSpaces.map((space) => space.spaceCoordinate));
+    }
+  }, [selectedCollection]);
   const updateSpaceItem = useSpaceStore((store) => store.updateSpaceItem);
 
   return (
@@ -71,19 +81,38 @@ const HomePage = () => {
             {!selectedCollection && (
               <div className="text-3xl font-bold mx-8 my-4">My Collections</div>
             )}
-            <hr className="mb-4" />
             {!!selectedCollection && (
-              <div className="flex flex-row">
-                <div
-                  className="text-3xl mx-4 mt-4"
-                  onClick={() => {
-                    setSelectedCollection(null);
-                  }}
-                >
-                  ← {selectedCollection}
+              <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-row items-center">
+                  <div
+                    className="text-3xl font-semibold mx-4 my-3 cursor-pointer"
+                    onClick={() => {
+                      setSelectedCollection(null);
+                    }}
+                  >
+                    ← {selectedCollection}
+                  </div>
+                  <div className="text-3xl my-3 text-gray-400">| Spaces</div>
+                </div>
+                <div className="my-3 mr-5">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"
+                    />
+                  </svg>
                 </div>
               </div>
             )}
+            <hr className="my-2" />
             <div className="grid-container grid grid-cols-3 ">
               {!selectedCollection &&
                 collections.map(
