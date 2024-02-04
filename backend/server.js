@@ -157,11 +157,12 @@ app.post('/space', async (req, res) => {
 
   app.post('/collection', async (req, res) => {
     try {
-      const { username, collectionName, collectionDescription, collectionImage } = req.body;
+      const username = jwt.verify(req.header('Authorization'), 'your_secret_key').username;
+      
+      const { collectionName, collectionDescription, collectionImage } = req.body;
   
       // Find the user by username
       const user = await User.findOne({ username });
-  
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }

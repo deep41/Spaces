@@ -5,6 +5,41 @@ const CreateCollectionModal = () => {
   const [collectionName, setCollectionName] = useState("");
   const [collectionDescription, setCollectionDescription] = useState("");
 
+  // Function to generate a random pastel gradient
+  const generateRandomPastelGradient = () => {
+    const h = Math.floor(Math.random() * 360);
+    const pastelGradient = `linear-gradient(135deg, hsl(${h}, 100%, 80%), hsl(${(h + 30) % 360}, 100%, 85%))`;
+    return pastelGradient;
+  };
+
+  // Function to create a collection
+  const createCollection = async () => {
+    const collectionImage = generateRandomPastelGradient(); // Generate a random gradient for the collection image
+    try {
+      const response = await fetch('http://localhost:3000/collection', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          collectionName,
+          collectionDescription,
+          collectionImage,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data); // Handle success response
+        setShowModal(false); // Close the modal on success
+      } else {
+        console.error("Failed to create collection");
+      }
+    } catch (error) {
+      console.error("Error creating collection:", error);
+    }
+  };
+
   return (
     <>
       <button
@@ -27,7 +62,7 @@ const CreateCollectionModal = () => {
           >
             <div
               className="relative my-6 mx-auto w-2/6"
-              onClick={(e) => e.stopPropagation()} 
+              onClick={(e) => e.stopPropagation()}
             >
               {/* content */}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -51,7 +86,7 @@ const CreateCollectionModal = () => {
                       placeholder="untitled list"
                       style={{
                         border: "none",
-                        borderBottom: "2px solid gray", 
+                        borderBottom: "2px solid gray",
                         borderRadius: "0",
                         width: "100%",
                       }}
@@ -83,7 +118,7 @@ const CreateCollectionModal = () => {
                   <button
                     className="bg-black text-white border-2 border-black rounded-md px-4 py-1 mx-1"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={createCollection}
                   >
                     Create
                   </button>
