@@ -191,7 +191,7 @@ const CollectionItem = (props: any) => {
         {!!imageLink && (
           <div className="mx-4 my-2">
             <img
-              src={imageLink}
+              src={"data:image/jpeg;base64," + imageLink.substring(20)}
               alt="Profile Image"
               className="rounded-md w-20 h-20 object-fill"
             />
@@ -203,7 +203,7 @@ const CollectionItem = (props: any) => {
             style={{ background: collectionImage }}
           ></div>
         )}
-        <div>{text}</div>
+        <div className="mx-4 overflow-ellipsis line-clamp-2">{text}</div>
       </div>
     </>
   );
