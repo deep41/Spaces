@@ -8,7 +8,6 @@ const CreateSpaceModal = () => {
   const [spaceTags, setSpaceTags] = useState("");
   const [spaceName, setSpaceName] = useState("");
   const [spaceDescription, setSpaceDescription] = useState("");
-  const [value, setValue] = useState(null);
   const [placeId, setPlaceId] = useState(null);
   const [collectionNames, setCollectionNames] = useState<string[]>([]);
   const [selectedCollection, setSelectedCollection] = useState<string>("");
@@ -68,6 +67,49 @@ const CreateSpaceModal = () => {
 
   // const onCollectionSelect = (key: string) => {};
 
+
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("User not authenticated");
+        return;
+      }
+
+      const tagsArray = spaceTags.split(" ").map(tag => tag.replace("#", ""));
+
+      const formData = {
+        spaceName: spaceName,
+        spaceDescription: spaceDescription,
+        spacetags: tagsArray,
+        spaceImage: addedImagesList, // Assuming you want to use the first added image
+        placeId: placeId,
+        collectionNames: selectedCollection
+      };  
+
+      console.log(formData)
+
+      const response = await fetch("http://localhost:3000/space", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log("Space added successfully!");
+        setShowModal(false);
+      } else {
+        console.error("Failed to add space");
+      }
+
+    } catch (error) {
+      console.error("Error submitting space:", error);
+    }
+  };
+
   return (
     <>
       <button
@@ -100,7 +142,7 @@ const CreateSpaceModal = () => {
                           const placeName = newValue.label;
                           const placeId = newValue.value.place_id;
                           setPlaceId(placeId);
-                          setValue(placeName);
+                          setSpaceName(placeName);
                         },
                       }}
                     />
@@ -181,7 +223,7 @@ const CreateSpaceModal = () => {
                   <button
                     className="bg-black text-white border-2 border-black rounded-md  px-4 py-1 mx-1 hover:bg-black/85"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={handleSubmit}
                   >
                     Save Changes
                   </button>

@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const fetch = require('node-fetch');
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bodyParser = require('body-parser');
@@ -120,29 +121,45 @@ app.post("/signin", async (req, res) => {
 
 app.post('/space', async (req, res) => {
     try {
-      const { username, spaceName, spaceDescriptions, spaceTags, spaceImage, spaceCoordinate, spaceAddress, collectionName } = req.body;
+
+      const username = jwt.verify(req.header('Authorization'), 'your_secret_key').username;
+
+      const {  spaceName, spaceDescription, spacetags, spaceImage, placeId, collectionNames } = req.body;
     
-      console.log(username)
       // Find the user by username
       const user = await User.findOne({ username });
   
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
-  
-      const collection = user.collections.find((col) => col.collectionName === collectionName);
+
+      const collection = user.collections.find((col) => col.collectionName === collectionNames);
 
       if (!collection) {
         return res.status(404).json({ error: 'Collection not found' });
       }
   
+
+          // Fetch latitude and longitude from Google Places API
+      const googlePlacesApiUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=AIzaSyBprJC4VwGTWaT9a7rI5reRU17jqXSuAIY`;
+      const placeDetailsResponse = await fetch(googlePlacesApiUrl);
+      const placeDetails = await placeDetailsResponse.json();
+
+      // Extract latitude and longitude from the response
+      const { lat, lng } = placeDetails.result.geometry.location;
+      const address = placeDetails.result.formatted_address;
+      console.log(spacetags);
+
+      const bufferImages = spaceImage.map((base64Image) => Buffer.from(base64Image, 'base64'));
+
+  
       collection.spaces.push({
         spaceName,
-        spaceDescriptions,
-        spaceTags,
-        spaceImage,
-        spaceCoordinate,
-        spaceAddress,
+        spaceDescription,
+        spacetags,
+        bufferImages,
+        spaceCoordinate: { latitude: lat, longitude: lng },
+        spaceAddress: address
       });
   
       // Save the updated user object
