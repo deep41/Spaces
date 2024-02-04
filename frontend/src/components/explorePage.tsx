@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 
 const ExplorePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [tags, setTags] = useState([]);
 
-  const handleSearchChange = (event) => {
+  useEffect(() => {
+    // Function to fetch all tags
+    const fetchTags = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/getAllTags');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        const tagData = data.tags.map((item: any) => {return {data: item, color: generateRandomPastelGradient()};})
+        setTags(tagData);
+      } catch (error) {
+        console.error('Error fetching tags:', error);
+      }
+    };
+
+    fetchTags();
+  }, []);
+
+  const handleSearchChange = (event: any) => {
     setSearchTerm(event.target.value);
   };
-
-  // Placeholder data for squares
-  const placeholders = [
-    { title: "Community 1", places: "20 Spaces" },
-    { title: "Community 2", places: "15 Spaces" },
-    { title: "Community 3", places: "30 Spaces" },
-    { title: "Community 4", places: "25 Spaces" },
-    // Add more if needed
-  ];
 
   const generateRandomPastelGradient = () => {
     const h = Math.floor(Math.random() * 360);
@@ -28,7 +38,7 @@ const ExplorePage = () => {
       <div className="flex items-center max-w-2xl w-full border-2 border-gray-300 rounded-2xl overflow-hidden">
         <input
           type="text"
-          placeholder="Search by city"
+          placeholder="Search by tags"
           className="py-2 px-4 w-full outline-none"
           value={searchTerm}
           onChange={handleSearchChange}
@@ -40,15 +50,15 @@ const ExplorePage = () => {
       <div className="w-full max-w-5xl mt-10">
         <h1 className="text-2xl font-semibold">Raleigh's Communities</h1>
         <hr className="my-2 p-5" />
-        {/* Squares with Texts */}
+        {/* Dynamic Squares with Texts for Tags */}
         <div className="grid grid-cols-4 gap-4">
-          {placeholders.map((placeholder, index) => (
+          {tags.length > 0 ? tags.map((tag: any, index) => (
             <div key={index} className="flex flex-col items-center">
-              <div className="w-48 h-48 rounded-lg" style={{background: generateRandomPastelGradient()}}></div>
-              <p className="mt-2 font-semibold">{placeholder.title}</p>
-              <p className="text-gray-500">{placeholder.places}</p>
+              <div className="w-48 h-48 rounded-lg" style={{background: tag.color}}></div>
+              <p className="mt-2 font-semibold">#{tag.data}</p>
+              <p className="text-gray-500">X Spaces</p> {/* Update this as needed */}
             </div>
-          ))}
+          )) : <div>No matching tags found.</div>}
         </div>
       </div>
     </div>
