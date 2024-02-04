@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { GoogleMap, useLoadScript } from '@react-google-maps/api';
-import {Marker} from '@react-google-maps/api'
+import React, { useEffect, useState } from "react";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import { Marker } from "@react-google-maps/api";
 
-type Library = 'places';
+type Library = "places";
 
-const libraries: Library[] = ['places'];
+const libraries: Library[] = ["places"];
 
 const mapContainerStyle = {
-  width: '100%',
-  height: '100vh',
+  width: "100%",
+  height: "calc(100vh - 55px)",
 };
 
 interface MapsProps {
@@ -17,7 +17,7 @@ interface MapsProps {
 
 const Maps: React.FC<MapsProps> = ({ markers = [] }) => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyBprJC4VwGTWaT9a7rI5reRU17jqXSuAIY', // Replace with your actual API key
+    googleMapsApiKey: "AIzaSyBprJC4VwGTWaT9a7rI5reRU17jqXSuAIY", // Replace with your actual API key
     libraries,
   });
 
@@ -38,11 +38,11 @@ const Maps: React.FC<MapsProps> = ({ markers = [] }) => {
           });
         },
         (error) => {
-          console.error('Error getting current location:', error);
+          console.error("Error getting current location:", error);
         }
       );
     } else {
-      console.error('Geolocation is not supported by this browser.');
+      console.error("Geolocation is not supported by this browser.");
     }
   }, []);
 
@@ -69,14 +69,12 @@ const Maps: React.FC<MapsProps> = ({ markers = [] }) => {
   ];
 
   console.log(staticMarkers);
-  
+
   const customMarkerImage = {
-    url: 'https://source.unsplash.com/random/40x40',
+    url: "https://source.unsplash.com/random/40x40",
     scaledSize: { width: 40, height: 40 },
     size: { width: 40, height: 40 },
-  } as google.maps.Icon; 
-
-  
+  } as google.maps.Icon;
 
   return (
     <div>
@@ -85,16 +83,15 @@ const Maps: React.FC<MapsProps> = ({ markers = [] }) => {
         zoom={15}
         center={currentLocation}
       >
-
         {staticMarkers.map((marker, index) => (
           <div key={index}>
-          <Marker key={index} position={marker} icon={customMarkerImage} />
+            <Marker key={index} position={marker} icon={customMarkerImage} />
           </div>
         ))}
 
         {markers.map((marker, index) => (
           <div key={index}>
-          <Marker key={index} position={marker} icon={customMarkerImage} />
+            <Marker key={index} position={marker} icon={customMarkerImage} />
           </div>
         ))}
       </GoogleMap>
