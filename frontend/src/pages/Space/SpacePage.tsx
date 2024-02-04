@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useSpaceStore } from "../../store/SpaceStore";
 import SpaceComments from "./SpaceCommentsView";
 import SpaceImageRow from "./SpaceImageRow";
 import SpaceMap from "./SpaceMap";
@@ -24,6 +26,12 @@ const SpacePage = () => {
       },
     ],
   };
+
+  const spaceItem = useSpaceStore((store) => store.spaceItem);
+
+  useEffect(() => {
+    console.log(spaceItem);
+  });
 
   return (
     <>
