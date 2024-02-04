@@ -26,6 +26,13 @@ const LandingPage = () => {
     if (!!token) {
       navigate("/home");
     }
+    document.body.style.backgroundImage = "url('/assets/map.png')";
+    document.body.style.backgroundSize = 'cover';
+    
+    return () => {
+      document.body.style.backgroundImage = '';
+    };
+
   }, []);
 
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
