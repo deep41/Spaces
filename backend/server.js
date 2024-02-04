@@ -150,9 +150,11 @@ app.post('/space', async (req, res) => {
       const address = placeDetails.result.formatted_address;
       console.log(spacetags);
 
+      const spaceImage = bufferImages.map((base64Image) => Buffer.from(base64Image, 'base64').toString('base64'));
+
       spaceName = placeDetails.result.name;
       
-      const spaceImage = bufferImages.map((base64Image) => Buffer.from(base64Image, 'base64'));
+    
       console.log(spaceImage)
   
       collection.spaces.push({
