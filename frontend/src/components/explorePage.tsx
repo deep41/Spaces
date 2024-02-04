@@ -57,11 +57,13 @@ const ExplorePage = () => {
         {/* Dynamic Squares with Texts for Tags */}
         <div className="grid grid-cols-4 gap-4">
           {filteredTags.length > 0 ? filteredTags.map((tag: any, index) => (
+            <button>
             <div key={index} className="flex flex-col items-center">
               <div className="w-48 h-48 rounded-lg" style={{background: tag.color}}></div>
               <p className="mt-2 font-semibold">#{tag.data.tag}</p>
               <p className="text-gray-500">{tag.data.count} Spaces</p> {/* Update this as needed */}
             </div>
+            </button>
           )) : <div>No matching tags found.</div>}
         </div>
       </div>
