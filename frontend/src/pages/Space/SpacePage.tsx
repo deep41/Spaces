@@ -42,7 +42,7 @@ const SpacePage = () => {
           </div>
           <div className="bg-gray-100/20">
             <SpaceMap />
-            <SpaceComments comments={spaceData.comments} />
+            <SpaceComments comments={spaceData.comments}  />
           </div>
         </div>
       </div>

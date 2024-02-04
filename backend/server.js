@@ -30,6 +30,13 @@ db.once("open", () => {
   console.log("Connected to MongoDB");
 });
 
+
+const commentSchema = new mongoose.Schema({
+  dateTime: { type: Date, default: Date.now },
+  username: String,
+  commentData: String,
+});
+
 // Define a user schema
 const spaceSchema = new mongoose.Schema({
     spaceName: String,
@@ -41,6 +48,7 @@ const spaceSchema = new mongoose.Schema({
       longitude: Number,
     },
     spaceAddress: String,
+    comments: [commentSchema],
   });
   
   const collectionSchema = new mongoose.Schema({
@@ -59,8 +67,9 @@ const spaceSchema = new mongoose.Schema({
 
 
 const User = mongoose.model("User", userSchema);
+const SpaceModel = mongoose.model("SpaceModel", spaceSchema);
 
-// Sign up endpoint
+// Sign up endpoint`
 app.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -307,8 +316,103 @@ app.post('/space', async (req, res) => {
     }
   });
   
-  
+  // POST endpoint to add a comment
+app.post('/space/AddComment', async (req, res) => {
+  try {
+    const { spaceID } = req.query;
+    const { commentData } = req.body;
+    const username = jwt.verify(req.header('Authorization'), 'your_secret_key').username;
+    
+    if (!spaceID || !username || !commentData) {
+      return res.status(400).json({ error: 'spaceID, username, and commentData are required.' });
+    }
 
+    // Find the space with the matching spaceID across all users
+    let foundSpace;
+    let foundUser;
+
+    const users = await User.find(); // Get all users
+
+    for (const user of users) {
+      for (const collection of user.collections) {
+        const spaceIndex = collection.spaces.findIndex(space => space._id.toString() === spaceID);
+
+        if (spaceIndex !== -1) {
+          // Space with matching spaceID found
+          foundSpace = collection.spaces[spaceIndex];
+          foundUser = user;
+          break;
+        }
+      }
+
+      if (foundSpace) {
+        break; // Break the outer loop if the space is found
+      }
+    }
+
+    if (!foundSpace) {
+      return res.status(404).json({ error: 'Space not found.' });
+    }
+
+    // Add the comment to the found space
+    foundSpace.comments.push({
+      username,
+      commentData,
+    });
+
+    // Save the updated user object
+    await foundUser.save();
+
+    return res.status(200).json(foundSpace);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+app.get('/space/Comments', async (req, res) => {
+  try {
+    const { spaceID } = req.query;
+
+    if (!spaceID) {
+      return res.status(400).json({ error: 'spaceID is required.' });
+    }
+
+    // Find the space with the matching spaceID across all users
+    let foundSpace;
+
+    const users = await User.find(); // Get all users
+
+    for (const user of users) {
+      for (const collection of user.collections) {
+        const spaceIndex = collection.spaces.findIndex(space => space._id.toString() === spaceID);
+
+        if (spaceIndex !== -1) {
+          // Space with matching spaceID found
+          foundSpace = collection.spaces[spaceIndex];
+          break;
+        }
+      }
+
+      if (foundSpace) {
+        break; // Break the outer loop if the space is found
+      }
+    }
+
+    if (!foundSpace) {
+      return res.status(404).json({ error: 'Space not found.' });
+    }
+
+    // Retrieve all comments for the found space
+    const comments = foundSpace.comments;
+
+    return res.status(200).json({ comments });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
