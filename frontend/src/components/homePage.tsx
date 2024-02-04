@@ -14,7 +14,7 @@ const HomePage = () => {
     const token = localStorage.getItem("token");
     if (!!!token) {
       navigate("/");
-    }else{
+    } else {
       fetchCollections();
     }
   }, []);
@@ -30,7 +30,7 @@ const HomePage = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         setCollections(data.collections);
       } else {
         console.error("Failed to fetch collections");
@@ -56,10 +56,14 @@ const HomePage = () => {
           <div className="pw-10 ph-2">
             <div className="text-3xl mx-4 mt-4">My Collections</div>
             <div className="grid-container grid grid-cols-3 ">
-            {collections.map((collection: { _id: string, collectionName: string }) => (
-          <SpaceItem key={collection._id} text={collection.collectionName} />
-        ))}
-
+              {collections.map(
+                (collection: { _id: string; collectionName: string }) => (
+                  <SpaceItem
+                    key={collection._id}
+                    text={collection.collectionName}
+                  />
+                )
+              )}
             </div>
           </div>
         </div>
