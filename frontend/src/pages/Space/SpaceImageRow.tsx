@@ -1,15 +1,23 @@
 import SpaceImage from "./SpaceImage";
 
-const SpaceImageRow = () => {
+const SpaceImageRow = (props: { spaceImage: string[] | undefined }) => {
+  const { spaceImage } = props;
   return (
     <>
-      <div className="text-3xl">Images</div>
-      <div className="py-2 mx-1 flex flex-row overflow-y-scroll overflow-">
-        <SpaceImage />
-        <SpaceImage />
-        <SpaceImage />
-        <SpaceImage />
-      </div>
+      {!!spaceImage && (
+        <div>
+          <div className="text-3xl">Images</div>
+          <div className="py-2 mx-1 flex flex-row overflow-y-scroll overflow-">
+            {spaceImage.map((item) => (
+              <SpaceImage imageLink={item} />
+            ))}
+            {/* <SpaceImage imageLink=""/>
+            <SpaceImage />
+            <SpaceImage />
+            <SpaceImage /> */}
+          </div>
+        </div>
+      )}
     </>
   );
 };
