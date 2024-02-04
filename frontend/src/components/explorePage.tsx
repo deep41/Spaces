@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const ExplorePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -9,12 +10,18 @@ const ExplorePage = () => {
 
   // Placeholder data for squares
   const placeholders = [
-    { title: "Community 1", places: "20 Places" },
-    { title: "Community 2", places: "15 Places" },
-    { title: "Community 3", places: "30 Places" },
-    { title: "Community 4", places: "25 Places" },
+    { title: "Community 1", places: "20 Spaces" },
+    { title: "Community 2", places: "15 Spaces" },
+    { title: "Community 3", places: "30 Spaces" },
+    { title: "Community 4", places: "25 Spaces" },
     // Add more if needed
   ];
+
+  const generateRandomPastelGradient = () => {
+    const h = Math.floor(Math.random() * 360);
+    const pastelGradient = `linear-gradient(135deg, hsl(${h}, 100%, 80%), hsl(${(h + 30) % 360}, 100%, 85%))`;
+    return pastelGradient;
+  };
 
   return (
     <div className="flex flex-col items-center mt-8">
@@ -31,13 +38,13 @@ const ExplorePage = () => {
         </button>
       </div>
       <div className="w-full max-w-5xl mt-10">
-        <h1 className="text-2xl font-semibold">City's Communities</h1>
+        <h1 className="text-2xl font-semibold">Raleigh's Communities</h1>
         <hr className="my-2 p-5" />
         {/* Squares with Texts */}
         <div className="grid grid-cols-4 gap-4">
           {placeholders.map((placeholder, index) => (
             <div key={index} className="flex flex-col items-center">
-              <div className="w-48 h-48 bg-gray-200 rounded-lg"></div>
+              <div className="w-48 h-48 rounded-lg" style={{background: generateRandomPastelGradient()}}></div>
               <p className="mt-2 font-semibold">{placeholder.title}</p>
               <p className="text-gray-500">{placeholder.places}</p>
             </div>
