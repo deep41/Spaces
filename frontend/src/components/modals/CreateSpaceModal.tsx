@@ -77,14 +77,14 @@ const CreateSpaceModal = () => {
       }
 
       const tagsArray = spaceTags.split(" ").map(tag => tag.replace("#", ""));
-
+      
       const formData = {
         spaceName: spaceName,
         spaceDescription: spaceDescription,
         spacetags: tagsArray,
-        spaceImage: addedImagesList, // Assuming you want to use the first added image
+        bufferImages: addedImagesList, // Assuming you want to use the first added image
         placeId: placeId,
-        collectionNames: selectedCollection
+        collectionNames: selectedCollection || 'All Spaces'
       };  
 
       console.log(formData)

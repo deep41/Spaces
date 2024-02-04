@@ -35,7 +35,7 @@ const spaceSchema = new mongoose.Schema({
     spaceName: String,
     spaceDescriptions: String,
     spacetags: [String],
-    spaceImage: String,
+    spaceImage: [String],
     spaceCoordinate: {
       latitude: Number,
       longitude: Number,
@@ -124,7 +124,7 @@ app.post('/space', async (req, res) => {
 
       const username = jwt.verify(req.header('Authorization'), 'your_secret_key').username;
 
-      const {  spaceName, spaceDescription, spacetags, spaceImage, placeId, collectionNames } = req.body;
+      const {  spaceName, spaceDescription, spacetags, bufferImages, placeId, collectionNames } = req.body;
     
       // Find the user by username
       const user = await User.findOne({ username });
@@ -150,14 +150,14 @@ app.post('/space', async (req, res) => {
       const address = placeDetails.result.formatted_address;
       console.log(spacetags);
 
-      const bufferImages = spaceImage.map((base64Image) => Buffer.from(base64Image, 'base64'));
-
+      const spaceImage = bufferImages.map((base64Image) => Buffer.from(base64Image, 'base64'));
+      console.log(spaceImage)
   
       collection.spaces.push({
         spaceName,
         spaceDescription,
         spacetags,
-        bufferImages,
+        spaceImage,
         spaceCoordinate: { latitude: lat, longitude: lng },
         spaceAddress: address
       });
