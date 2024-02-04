@@ -8,7 +8,13 @@ import CreateCollectionModal from "./modals/CreateCollectionModal";
 const HomePage = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [collections, setCollections] = useState<{ _id: string, collectionName: string, spaces: { spaceCoordinate: { latitude: number, longitude: number } }[] }[]>([])
+  const [collections, setCollections] = useState<
+    {
+      _id: string;
+      collectionName: string;
+      spaces: { spaceCoordinate: { latitude: number; longitude: number } }[];
+    }[]
+  >([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -105,7 +111,11 @@ const HomePage = () => {
           }}
         >
           <CreateSpaceModal />
-          <CreateCollectionModal />
+          <CreateCollectionModal
+            onUpdated={() => {
+              fetchCollections();
+            }}
+          />
         </div>
       )}
     </>
@@ -117,7 +127,6 @@ const CollectionItem = (props: any) => {
     imageLink = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2264&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     text,
   } = props;
-  
 
   return (
     <>

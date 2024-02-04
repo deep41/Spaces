@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-const CreateCollectionModal = () => {
+const CreateCollectionModal = (props: { onUpdated: any }) => {
+  const { onUpdated } = props;
   const [showModal, setShowModal] = React.useState(false);
   const [collectionName, setCollectionName] = useState("");
   const [collectionDescription, setCollectionDescription] = useState("");
@@ -8,7 +9,9 @@ const CreateCollectionModal = () => {
   // Function to generate a random pastel gradient
   const generateRandomPastelGradient = () => {
     const h = Math.floor(Math.random() * 360);
-    const pastelGradient = `linear-gradient(135deg, hsl(${h}, 100%, 80%), hsl(${(h + 30) % 360}, 100%, 85%))`;
+    const pastelGradient = `linear-gradient(135deg, hsl(${h}, 100%, 80%), hsl(${
+      (h + 30) % 360
+    }, 100%, 85%))`;
     return pastelGradient;
   };
 
@@ -16,10 +19,10 @@ const CreateCollectionModal = () => {
   const createCollection = async () => {
     const collectionImage = generateRandomPastelGradient(); // Generate a random gradient for the collection image
     try {
-      const response = await fetch('http://localhost:3000/collection', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/collection", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
@@ -32,6 +35,7 @@ const CreateCollectionModal = () => {
         const data = await response.json();
         console.log(data); // Handle success response
         setShowModal(false); // Close the modal on success
+        onUpdated();
       } else {
         console.error("Failed to create collection");
       }
@@ -74,7 +78,10 @@ const CreateCollectionModal = () => {
                 {/* body */}
                 <div className="relative px-6 flex-auto">
                   <div className="mb-4">
-                    <label htmlFor="collectionName" className="block text-gray-700 text-sm font-medium mb-2">
+                    <label
+                      htmlFor="collectionName"
+                      className="block text-gray-700 text-sm font-medium mb-2"
+                    >
                       Give your collection a name
                     </label>
                     <input
@@ -94,7 +101,10 @@ const CreateCollectionModal = () => {
                   </div>
 
                   <div className="mb-4">
-                    <label htmlFor="collectionDescription" className="block text-gray-700 text-sm font-medium mb-2">
+                    <label
+                      htmlFor="collectionDescription"
+                      className="block text-gray-700 text-sm font-medium mb-2"
+                    >
                       Describe your collection
                     </label>
                     <textarea
