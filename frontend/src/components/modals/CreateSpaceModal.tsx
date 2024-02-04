@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 const CreateSpaceModal = () => {
   const [showModal, setShowModal] = useState(false);
@@ -7,6 +8,10 @@ const CreateSpaceModal = () => {
   const [spaceTags, setSpaceTags] = useState("");
   const [spaceName, setSpaceName] = useState("");
   const [spaceDescription, setSpaceDescription] = useState("");
+  const [value, setValue] = useState(null);
+  const [placeId, setPlaceId] = useState(null);
+  const [collectionNames, setCollectionNames] = useState<string[]>([]);
+  const [selectedCollection, setSelectedCollection] = useState<string>("");
 
   const handleDivClick = (event: any) => {
     event.stopPropagation();
@@ -30,6 +35,38 @@ const CreateSpaceModal = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!!token) {
+      fetchCollectionsNames();
+    }
+  }, []);
+
+  const fetchCollectionsNames = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/collectionNames", {
+        method: "GET",
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setCollectionNames([...data.collectionNames]);
+        console.log(collectionNames);
+        setSelectedCollection(collectionNames[0]);
+      } else {
+        console.error("Failed to fetch collections");
+      }
+    } catch (error) {
+      console.error("Error fetching collections:", error);
+    }
+  };
+
+  // const onCollectionSelect = (key: string) => {};
 
   return (
     <>
@@ -55,19 +92,39 @@ const CreateSpaceModal = () => {
                 <div className="relative px-6 flex-auto">
                   <div className="rounded-md p-2">
                     <div className="text-2xl text-black">Space Name</div>
-                    <div className="mb-4">
-                      <input
-                        id="spaceName"
-                        value={spaceName}
-                        onChange={(e) => setSpaceName(e.target.value)}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder=""
-                      ></input>
-                    </div>
+                    <GooglePlacesAutocomplete
+                      apiKey="AIzaSyBprJC4VwGTWaT9a7rI5reRU17jqXSuAIY"
+                      selectProps={{
+                        // value,
+                        onChange(newValue: any, _) {
+                          const placeName = newValue.label;
+                          const placeId = newValue.value.place_id;
+                          setPlaceId(placeId);
+                          setValue(placeName);
+                        },
+                      }}
+                    />
                   </div>
-                  <p className="text-lg leading-relaxed">
-                    Search for your collection
-                  </p>
+                  <div className="p-2">
+                    <div className="text-2xl text-black ">
+                      Add to Collection
+                    </div>
+                    {collectionNames && (
+                      <select
+                        name="cars"
+                        id="cars"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        onChange={(e: any) => {
+                          setSelectedCollection(e.target.value);
+                        }}
+                        value={selectedCollection}
+                      >
+                        {collectionNames.map((item) => (
+                          <option value={item}>{item}</option>
+                        ))}
+                      </select>
+                    )}
+                  </div>
                   <div className="rounded-md p-2">
                     <div className="text-2xl text-black">Add Image</div>
                     <div className="grid grid-container grid-cols-4 gap-2 ">
@@ -108,9 +165,9 @@ const CreateSpaceModal = () => {
                       placeholder=""
                     ></textarea>
                   </div>
-                  <div className="rounded-md p-2">
+                  {/* <div className="rounded-md p-2">
                     <div className="text-2xl text-black">Add location</div>
-                  </div>
+                  </div> */}
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-4 ">
