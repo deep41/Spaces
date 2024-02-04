@@ -25,6 +25,11 @@ const HomePage = () => {
     }
   }, []);
 
+  const [selectedCollection, setSelectedCollection] = useState<string | null>(
+    null
+  );
+  const [selectedSpaces, setSelectedSpaces] = useState<any[]>([]);
+
   const fetchCollections = async () => {
     try {
       const response = await fetch("http://localhost:3000/collections", {
@@ -60,16 +65,54 @@ const HomePage = () => {
         </div>
         <div className=" bg-gray-100/30" style={{ width: "calc(100vw * 0.3)" }}>
           <div className="pw-10 ph-2">
-            <div className="text-3xl mx-4 mt-4">My Collections</div>
+            {!selectedCollection && (
+              <div className="text-3xl mx-4 mt-4">My Collections</div>
+            )}
+            {!!selectedCollection && (
+              <div className="flex flex-row">
+                <div
+                  className="text-3xl mx-4 mt-4"
+                  onClick={() => {
+                    setSelectedCollection(null);
+                  }}
+                >
+                  ← {selectedCollection}
+                </div>
+              </div>
+            )}
             <div className="grid-container grid grid-cols-3 ">
-              {collections.map(
-                (collection: { _id: string; collectionName: string }) => (
-                  <CollectionItem
-                    key={collection._id}
-                    text={collection.collectionName}
-                  />
-                )
-              )}
+              {!selectedCollection &&
+                collections.map(
+                  (collection: {
+                    _id: string;
+                    collectionName: string;
+                    spaces: any[];
+                  }) => (
+                    <CollectionItem
+                      key={collection._id}
+                      text={collection.collectionName}
+                      onClick={(e: any) => {
+                        setSelectedCollection(collection.collectionName);
+                        setSelectedSpaces(collection.spaces);
+                      }}
+                    />
+                  )
+                )}
+            </div>
+            <div className="grid-container grid grid-cols-3 ">
+              {!!selectedCollection &&
+                selectedSpaces.map(
+                  (space: { _id: string; spaceName: string }) => (
+                    <CollectionItem
+                      key={space._id}
+                      text={space.spaceName}
+                      onClick={(e: any) => {
+                        // setSelectedCollection(space.spaceName);
+                        console.log(space._id);
+                      }}
+                    />
+                  )
+                )}
             </div>
           </div>
         </div>
@@ -126,11 +169,15 @@ const CollectionItem = (props: any) => {
   const {
     imageLink = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2264&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     text,
+    onClick,
   } = props;
 
   return (
     <>
-      <div className="flex flex-col items-center rounded-md hover:bg-gray-200/50 gap-2 pb-2 pt-1 ">
+      <div
+        className="flex flex-col items-center rounded-md hover:bg-gray-200/50 gap-2 pb-2 pt-1 "
+        onClick={(e: any) => onClick(e)}
+      >
         <div className="mx-4 my-2">
           <img
             src={imageLink}
