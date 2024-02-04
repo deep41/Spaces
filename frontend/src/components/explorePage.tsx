@@ -33,6 +33,10 @@ const ExplorePage = () => {
     return pastelGradient;
   };
 
+  const filteredTags = tags.filter((tag) => 
+    tag.data.tag.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="flex flex-col items-center mt-8">
       <div className="flex items-center max-w-2xl w-full border-2 border-gray-300 rounded-2xl overflow-hidden">
@@ -52,12 +56,14 @@ const ExplorePage = () => {
         <hr className="my-2 p-5" />
         {/* Dynamic Squares with Texts for Tags */}
         <div className="grid grid-cols-4 gap-4">
-          {tags.length > 0 ? tags.map((tag: any, index) => (
+          {filteredTags.length > 0 ? filteredTags.map((tag: any, index) => (
+            <button>
             <div key={index} className="flex flex-col items-center">
               <div className="w-48 h-48 rounded-lg" style={{background: tag.color}}></div>
-              <p className="mt-2 font-semibold">#{tag.data}</p>
-              <p className="text-gray-500">X Spaces</p> {/* Update this as needed */}
+              <p className="mt-2 font-semibold">#{tag.data.tag}</p>
+              <p className="text-gray-500">{tag.data.count} Spaces</p> {/* Update this as needed */}
             </div>
+            </button>
           )) : <div>No matching tags found.</div>}
         </div>
       </div>

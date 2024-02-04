@@ -133,7 +133,7 @@ app.post('/space', async (req, res) => {
 
       const username = jwt.verify(req.header('Authorization'), 'your_secret_key').username;
 
-      const {  spaceDescription, spacetags, bufferImages, placeId, collectionNames } = req.body;
+      const {  spaceDescriptions, spacetags, bufferImages, placeId, collectionNames } = req.body;
     
       // Find the user by username
       const user = await User.findOne({ username });
@@ -168,7 +168,7 @@ app.post('/space', async (req, res) => {
   
       collection.spaces.push({
         spaceName,
-        spaceDescription,
+        spaceDescriptions,
         spacetags,
         spaceImage,
         spaceCoordinate: { latitude: lat, longitude: lng },

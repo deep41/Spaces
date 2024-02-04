@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Maps from "./partials/maps";
 import CreateSpaceModal from "./modals/CreateSpaceModal";
 import CreateCollectionModal from "./modals/CreateCollectionModal";
+import { Space, useSpaceStore } from "../store/SpaceStore";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ const HomePage = () => {
   const allCoordinates = collections.flatMap((collection) =>
     collection.spaces.map((space) => space.spaceCoordinate)
   );
+  const updateSpaceItem = useSpaceStore((store) => store.updateSpaceItem);
 
   return (
     <>
@@ -104,23 +106,19 @@ const HomePage = () => {
             </div>
             <div className="grid-container grid grid-cols-3 ">
               {!!selectedCollection &&
-                selectedSpaces.map(
-                  (space: {
-                    _id: string;
-                    spaceName: string;
-                    spaceImage: string[];
-                  }) => (
-                    <CollectionItem
-                      key={space._id}
-                      text={space.spaceName}
-                      imageLink={space?.spaceImage[0]}
-                      onClick={(e: any) => {
-                        // setSelectedCollection(space.spaceName);
-                        console.log(space._id);
-                      }}
-                    />
-                  )
-                )}
+                selectedSpaces.map((space: Space) => (
+                  <CollectionItem
+                    key={space._id}
+                    text={space.spaceName}
+                    imageLink={space?.spaceImage[0]}
+                    onClick={(e: any) => {
+                      // setSelectedCollection(space.spaceName);
+                      console.log(space._id);
+                      updateSpaceItem(space);
+                      navigate("/space");
+                    }}
+                  />
+                ))}
             </div>
           </div>
         </div>
@@ -198,10 +196,12 @@ const CollectionItem = (props: any) => {
           </div>
         )}
         {!imageLink && !!collectionImage && (
-          <div
-            className="w-20 h-20 rounded-md object-fill"
-            style={{ background: collectionImage }}
-          ></div>
+          <div className="mx-4 my-2">
+            <div
+              className="w-20 h-20 rounded-md object-fill"
+              style={{ background: collectionImage }}
+            ></div>
+          </div>
         )}
         <div className="mx-4 overflow-ellipsis line-clamp-2">{text}</div>
       </div>

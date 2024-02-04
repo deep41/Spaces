@@ -1,21 +1,8 @@
-import React, { useState, ChangeEvent } from "react";
+import { useSpaceStore } from "../../store/SpaceStore";
 
 const SpaceAddComment = () => {
-  const [commentText, setCommentText] = useState(""); // State to manage the comment text
-
-  const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setCommentText(event.target.value);
-  };
-
-  const handleAddComment = () => {
-    // Implement logic to add the comment using the commentText
-    // For now, you can log it to the console
-    console.log("Added Comment:", commentText);
-    
-    // Clear the comment text after adding the comment
-    setCommentText("");
-  };
-
+  const spaceItem = useSpaceStore((store) => store.spaceItem);
+  const spaceId = spaceItem?._id;
   return (
     <>
       <div>
