@@ -4,6 +4,15 @@ Introducing Spaces, the ultimate community-driven exploration app! Imagine a pla
 ## What it does
 The platform is built around the smallest unit called 'spaces.' Each space is an individual's experience that can be discovered by any other individual. Spaces with similar properties can be grouped into 'Collections' for easy organization and sharing purposes. We utilize tags to uncover and establish communities, with the tags serving as a means to amplify the voices of these communities on our platform.
 
+![Showcase image 1](/spaces-1.png)
+![Showcase image 2](/spaces-2.png)
+![Showcase image 3](/spaces-3.png)
+![Showcase image 4](/spaces-4.png)
+![Showcase image 5](/spaces-5.png)
+![Showcase image 6](/spaces-6.png)
+![Showcase image 7](/spaces-7.png)
+![Showcase image 8](/spaces-8.png)
+
 ## Install and Run the Project
 Clone the project into your system.
 ```sh
